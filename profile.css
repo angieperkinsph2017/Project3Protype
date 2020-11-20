@@ -1,0 +1,27 @@
+.topnav {
+  overflow: hidden;
+}
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  width: fill;
+  padding: 14px 16px;
+  font-size: 16px;
+
+}
+.user-start {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.user-start > p {
+  display: inline-block;
+}
+
+.favorite-artists {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.favorite-artists {
+  display: inline-block;
+}
