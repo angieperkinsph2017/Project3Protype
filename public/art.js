@@ -89,23 +89,23 @@ function errorText() {
 //outputs pictures after search
 function processResults(results) {
   $('#results').html("");//clears past searc results
-  var arrayOfPics = results.split(",");//seperated urls from results
-  //for loop for putting pictures on the screen
-  var i;
-  for(i = 0; i < arrayOfPics.length; i++){
-    //cleaning urls to become picture src
-  if (i == 0){
-    arrayOfPics[i]=arrayOfPics[i].replace('[', '');
-  }
-  if (i == arrayOfPics.length-1){
-    arrayOfPics[i]=arrayOfPics[i].replace(']', '');
-  }
-  var pic = arrayOfPics[i].replace('{"URL":"', '');
-  var pic2 = pic.replace('"}', '');
+  rows=JSON.parse(results);
+  var result = '<div class = artResults>';
+  if (rows.length < 1) {
+    result += "<h3>Nothing Found</h3>";
+    console.log("Nothing Found");
+  } else{
+     result += '<h3>Results</h3>';
+     var i=0;
+     rows.forEach(function(row){
+      result += `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>';
+      result += "<hr>";
+      i++;
+     })
+    }
+     result += '</div>';
+     $(result).appendTo('#results');
 
-  //puts picture on website
-  $(`<img src='${pic2}' class='center'>`).appendTo('#results');
-}
   if(results=="") {
    errorText();
   }
