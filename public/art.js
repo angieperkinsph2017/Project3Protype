@@ -1,5 +1,5 @@
 const port='9019'
-const Url ='http://jimskon.com:'+port//needed :
+const Url ='http://jimskon.com:'+port //needed :
 var operation;
 var selectID;
 var recIndex;
@@ -53,7 +53,7 @@ function getMatches() {//if set on one function pass sqlTable to this
     $('#art-search-input').empty();
   //}
   $.ajax({
-    url: Url+'/find?field='+operation+'&search='+search,//+'&sqlTable='+sqlTable, //is this how the find function works or should it be
+    url: Url+'/find?field='+operation+'&search='+search, //+'&sqlTable='+sqlTable, //is this how the find function works or should it be
     type:"GET",
     success: processResults,
     error:displayError
@@ -104,13 +104,13 @@ function processResults(results) {
   var pic2 = pic.replace('"}', '');
 
   //puts picture on website
-  $(`<img src='${pic2}'>`).appendTo('#results');
+  $(`<img src='${pic2}' class='center'>`).appendTo('#results');
 }
   if(results=="") {
    errorText();
   }
   else {
-    ('#modal').modal('hide');//no clue what this does not my code
+//    ('#modal').modal('hide');//no clue what this does not my code
   }
 
 }

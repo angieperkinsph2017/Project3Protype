@@ -48,9 +48,9 @@ app.get('/find', function (req, res) {
       //sqlTable=req.query.sqlTable; //added to make usable for user and art
     	console.log(field+":"+search);
   //if we're passing the SQl table as an argument, it needs to go here, otherwise we need 2 seperate functions
-	query = "SELECT URL FROM art WHERE "+field + "  like '%"+req.query.search+"%'";// LIMIT 20
+	query = "SELECT URL FROM art WHERE "+field + "  like '%"+req.query.search+"%'"; //LIMIT 20
 	console.log(query);
-	con.query(query, function(err,result,fields,sqlTable) {
+	con.query(query, function(err,result,fields) {
 	    if (err) throw err;
 	    console.log(result)
 	    res.end( JSON.stringify(result));

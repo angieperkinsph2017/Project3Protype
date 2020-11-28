@@ -9,10 +9,15 @@ var sqlTable ="art.sql";
 var saveRecord;
 
 $(document).ready(function () {
+  operation = "Artist"; //Default operation
+
   /*$(".btn-login").click( {
     sqlTable="userinfo.sql"
   });*/
   $("#art-search").click(getMatches);
+  $("#art-search-input").keyup(function(e){
+    getMatches();
+  });
  // changeoperation(operation);
  /* $(".btn-login").click(getMatches);
 
@@ -38,12 +43,12 @@ function getMatches() {
     var search = $("#art-search-input").val();
   }*/
   var search = $("#art-search-input").val();
-  $.ajax({
-    url: Url+'/find?field='sqlTable+'&search'=search;
+/*  $.ajax({
+    url: Url+'/find?field='+operation+'&search='+search,
     type:"GET",
     success: processResults,
     error:displayError
-  })
+  })*/
 }
 
 
@@ -59,15 +64,17 @@ function pageChange(webPage) {
   }
 }
 function errorText() {
-  $("#modal-login-text").hide();
-  $("#modal-login-error-text").show();
+ /* $("#modal-login-text").hide();
+  $("#modal-login-error-text").show();*/
+  console.log("Error");
 }
 function processResults(results) {
   if(results=="") {
    errorText();
   }
   else {
-    ('#modal').modal('hide');
+      buildTable(results);
+      console.log("Results: ");
   }
 
 }
