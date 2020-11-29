@@ -99,6 +99,7 @@ function processResults(results) {
      var i=0;
      rows.forEach(function(row){
       result += `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>';
+      result += addRating();
       result += "<hr>";
       i++;
      })
@@ -117,4 +118,14 @@ function processResults(results) {
 //shows error
 function displayError(error) {
     console.log('Error ${error}');
+}
+
+function addRating()
+{
+ var ratingTable = '<div class = "dropdown"><li class="btn-group"><a href="#" class="dropdown-toggle selection" id="searchtype" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rating<span class="caret"></span></a>';
+ ratingTable += '<ul class="dropdown-menu" role="menu">'
+ ratingTable += '<li><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li></ul></li></div>';
+// ratingTable += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
+// ratingTable += '<a  href="#">1</a><a class="dropdown-item" href="#">2</a><a class="dropdown-item" href="#">3</a><a class="dropdown-item" href="#">4</a><a class="dropdown-item" href="#">5</a>';
+ return ratingTable;
 }
