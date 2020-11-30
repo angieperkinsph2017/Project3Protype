@@ -9,7 +9,7 @@ var port = 9019
 app.use(express.static('public'));
 //
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + "/art.html");
+  res.sendFile(__dirname + "/public/" + "art.html");
 })
 
 function openSQL() {
@@ -27,9 +27,10 @@ function openSQL() {
 var con = openSQL();
 
 app.get('/list', function (req,res) {
-
-  query = "SELECT * FROM art";
-  con.query(query, function(err, result, fields) {
+  console.log("Query:"+JSON.stringify(req.query));
+  search=req.query.search;
+  query = "SELECT * FROM Userinfo WHERE Username ='"+search+"'";//sends back all results  from user row
+  con.query(query, function(err, result, search) {
     if(err) throw err;
     console.log(result)
     res.end( JSON.stringify(result));
@@ -58,6 +59,25 @@ app.get('/find', function (req, res) {
     }
 })
 
+app.get('/addrec', function (req, res) {
+    if (missingField(req.query)) {
+        console.log("Bad add request:"+JSON.stringify(req.query));
+        res.end("['fail']");
+    } else {
+    console.log('Hello');
+	query = "Insert INTO Userinfo(Username, Password, Biography, FavoriteArtists, Picture)  VALUES('"+req.query.Username+"','"+req.query.Password+"','"+req.query.Biography+"','"+req.query.FavoriteArtists+"','"+req.query.Picture+"')";
+ 	console.log(query);
+	con.query(query, function(err,result,fields) {
+	    if (err) throw err;
+	    console.log(result)
+	    res.end( JSON.stringify(result));
+	})
+    }
+})
+
+function missingField(p) {
+    return (p.Username === undefined || p.Password === undefined || p.Biography === undefined || p.FavoriteArtists == undefined || p.Picture == undefined);
+}
 
 var server = app.listen(port, function () {
    var host = server.address().address
