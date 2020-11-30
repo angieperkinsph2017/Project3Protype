@@ -10,6 +10,7 @@ var isSelf = true; //for searching users, tells if it is self user or not;
 
 $(document).ready(function () {
     $(".modal").show();
+    $("#modal-login-error-text").hide();//couldn't get it to be able to be hidden and then appear using hidden attribute on html so I moved it here
     $(".signup-modal").hide();
     $(".user-profile").hide();
     $(".search-option").hide();
@@ -19,6 +20,10 @@ $(document).ready(function () {
     operation = "Artist";//default
     $("#user-search").click(getList);
     $(".btn-login").click(getList);
+    $(".mainpage").click(function(e) {
+      $(".search-option").show();//junk, shoult not be in final product, just for testing.
+      $(".user-profile").hide();
+    });
 
 
 
@@ -39,17 +44,6 @@ function getMatches() {//if set on one function pass sqlTable to this
   //need a way to differentiate between tables, but cannot call in doc .ready with sql name or else wont search properly
   //may be worth writing a seperate one for user/password
 
-  //for dual purpse:
-  /*if(sqlTable=="Userinfo") {
-    if("#username-login").length()>1{
-      var username = $("#username-login").val();
-      var password = $("#password-login").val();
-      var search = username+" "+password; }
-    else
-      var search = $("#user-search-input").val();
-  }
-  else */
-  //if(sqlTable=="art") {
     sqlTable="art.sql";
     var search = $("#art-search-input").val();//sets search value
     $('#art-search-input').empty();
@@ -67,18 +61,20 @@ function errorText() {
 }
  function getList(){
    sqlTable="Userinfo.sql";
-   if($("#user-search-input").length>0) {
+   if($("#user-search-input").length>1) {
    search=$("#user-search-input").val();
    isSelf=false;
- } else
-   search=$(".username-login").val();
+ } else {
+   search=$("#username-login").val();
+   console.log(search);
+  }
+   console.log(isSelf);
    $.ajax({
      url: Url+'/list?search='+search,
      type:"GET",
      success: processResults,
      error:displayError
    })
-   $('#results').append("this is working list");
 
  }
  function createAccount() { //when user wants to sign up, this will appear. still need to add where it checks if username is taken already
@@ -117,16 +113,21 @@ function processAdd() {
 function processResults(results) {
   console.log(results);
   console.log(sqlTable);
+  if(results=="" && isSelf==true) {
+    $("#modal-login-error-text").show();
+    console.log("username could not be found");
+    return;
+  }
   if(results=="") {
    errorText();
   }
   else if(sqlTable=="Userinfo.sql") {
-    var userinfo = results.split(",");
+    var userinfo = results.split('","');
     for (var i=0; i<userinfo.length; i++) {
       if(i == 0) {
-        userinfo[i] = userinfo[i].replace('[{','');
+        userinfo[i] = userinfo[i].replace('[{"','');
       } else if (i == userinfo.length-1) {
-        userinfo[i] = userinfo[i].replace('}]','');
+        userinfo[i] = userinfo[i].replace('"}]','');
       }
       userinfo[i]=userinfo[i].split('":"').pop();//removes column title from text
       for(var j=0; j<userinfo[i].length; j++) {
@@ -136,20 +137,29 @@ function processResults(results) {
     }
     if(isSelf==true) {
       if($("#password-login").val()!=userinfo[1]) {
+
         $("#modal-login-error-text").show();
+        console.log($("#modal-login-error-text").text());
+        console.log("error: not same password");
         return;
       } else {
-      //$("#self-profile").show(); //features on user-profile only accessable if user page is self--Not in html yet
+        $(".modal").hide();
+        $(".user-profile").show();
+        $("#user-username").text(userinfo[0]);
+        $("#user-biography").text(userinfo[2]);
+        $(".favorite-artists").text(userinfo[3]);
+        //$("#self-profile").show(); //features on user-profile only accessable if user page is self--Not in html yet
       }
-    }
+    } else {
 
-    $(".search-option").hide();
-    $(".user-profile").show();
-    $("#user-username").text(userinfo[0]);
-    $("#user-biography").text(userinfo[2]);
-    $(".favorite-artists").text(userinfo[3]);
-    var picture = userinfo[5];
-    $(`<img src='${picture}'>`).appendTo("#user-image");//sets profile image of users choice of painting.
+      $(".search-option").hide();
+      $(".user-profile").show();
+      $("#user-username").text(userinfo[0]);
+      $("#user-biography").text(userinfo[2]);
+      $(".favorite-artists").text(userinfo[3]);
+      var picture = userinfo[5];
+      $(`<img src='${picture}'>`).appendTo("#user-image");//sets profile image of users choice of painting.
+    }
   }
   else if (sqlTable=="art.sql"){
 
