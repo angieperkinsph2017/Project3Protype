@@ -3,7 +3,9 @@ const Url ='http://jimskon.com:'+port
 var operation;
 var selectID;
 var recIndex;
+var artrecord;//stores each artwork locally.
 var rows;
+var userinfoSelf;
 var sqlTable ="art.sql";
 var saveRecord;
 var isSelf = true; //for searching users, tells if it is self user or not;
@@ -15,6 +17,13 @@ $(document).ready(function () {
     $(".user-profile").hide();
     $(".search-option").hide();
     $(".btn-createaccount").click(createAccount);
+    $("#passwordrepeat").keyup(function(e){
+      if($("#addpassword").val()!=$("#passwordrepeat").val()){
+        $(this).closest("input").addClass('highlight');
+      } else {
+        $(this).closest("input").removeClass('highlight');
+      }
+    });
 
     console.log("ready");
     operation = "Artist";//default
@@ -36,6 +45,12 @@ $(document).ready(function () {
   $(".art-search-input").keyup(function(e){
     getMatches();
   });
+  $(".list-add-button").click(function(){
+    console.log("list-add-button clicked");
+    var elmid=$(this).attr("id");
+    console.log(elmid);
+    addfavorite(artrecord[elmid]);
+  });
 
 });
 
@@ -43,7 +58,6 @@ function getMatches() {//if set on one function pass sqlTable to this
   //basically gutted this for demo, we can implement later
   //need a way to differentiate between tables, but cannot call in doc .ready with sql name or else wont search properly
   //may be worth writing a seperate one for user/password
-
     sqlTable="art.sql";
     var search = $("#art-search-input").val();//sets search value
     $('#art-search-input').empty();
@@ -61,12 +75,14 @@ function errorText() {
 }
  function getList(){
    sqlTable="Userinfo.sql";
-   if($("#user-search-input").length>1) {
+   console.log($("#user-search-input").length);
+   if($("#user-search-input").is(':visible')) {
    search=$("#user-search-input").val();
+   console.log("notself"+search);
    isSelf=false;
  } else {
    search=$("#username-login").val();
-   console.log(search);
+   console.log("self"+search);
   }
    console.log(isSelf);
    $.ajax({
@@ -96,9 +112,9 @@ function errorText() {
    sqlTable="Userinfo.sql";
 
    console.log(sqlTable);
-   console.log($('#addusername').val()+$('#addpassword').val()+$('#addbiography').val()+ $('#addfavorites').val(),)
+   console.log($('#addusername').val()+$('#addpassword').val()+$('#addbiography').val())
      $.ajax({
-         url: Url+'/addrec?Username='+$('#addusername').val()+'&Password='+$('#addpassword').val()+'&Biography='+$('#addbiography').val()+'&FavoriteArtists=none&Picture=https://www.wga.hu/detail/a/aachen/allegory.jpg',
+         url: Url+'/addrec?Username='+$('#addusername').val()+'&Password='+$('#addpassword').val()+'&Biography='+$('#addbiography').val(),
          type:"GET",
          success: processAdd,
          error: displayError
@@ -106,8 +122,22 @@ function errorText() {
  }
 function processAdd() {
   console.log("Success: added to sql table");
-  $(".signup-modal").hide();
-  $(".search-option").show(); //user is now logged in and is able to search other users.
+  if(sqlTable="Userinfo.sql") {
+    $(".signup-modal").hide();
+    $(".search-option").show(); //user is now logged in and is able to search other users.
+  } else {
+    console.log("added to favorites");
+  }
+}
+function addfavorite(newfavorite) {
+  sqlTable="favorite.sql";
+  console.log("favorite: "+newFavorite);
+  $.ajax({
+    url: Url+'/addfav?Username='+userinfoSelf[0]+'&artpiece='+newfavorite,
+    type:"GET",
+    success: processAdd,
+    error: displayError,
+  })
 }
 //outputs pictures after search
 function processResults(results) {
@@ -141,6 +171,7 @@ function processResults(results) {
         $("#modal-login-error-text").show();
         console.log($("#modal-login-error-text").text());
         console.log("error: not same password");
+        isSelf=false;
         return;
       } else {
         $(".modal").hide();
@@ -148,8 +179,13 @@ function processResults(results) {
         $("#user-username").text(userinfo[0]);
         $("#user-biography").text(userinfo[2]);
         $(".favorite-artists").text(userinfo[3]);
+        for(var i=0; i<userinfo[i].length; i++) {
+          userinfoSelf[i]=userinfo[i];
+        }
         //$("#self-profile").show(); //features on user-profile only accessable if user page is self--Not in html yet
       }
+      isSelf=false;
+      console.log("CheckSelf "+isSelf);
     } else {
 
       $(".search-option").hide();
@@ -157,8 +193,6 @@ function processResults(results) {
       $("#user-username").text(userinfo[0]);
       $("#user-biography").text(userinfo[2]);
       $(".favorite-artists").text(userinfo[3]);
-      var picture = userinfo[5];
-      $(`<img src='${picture}'>`).appendTo("#user-image");//sets profile image of users choice of painting.
     }
   }
   else if (sqlTable=="art.sql"){
@@ -167,23 +201,23 @@ function processResults(results) {
   $('.search-option').show();
   rows=JSON.parse(results);
  var result = '<div class = artResults>';
+ var artrecord;//stores each artwork locally.
  if (rows.length < 1) {
    result += "<h3>Nothing Found</h3>";
    console.log("Nothing Found");
- } else{
+ } else {
     result += '<h3>Results</h3>';
     var i=0;
     rows.forEach(function(row){
-     result += `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>';
+     result += `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p><button class ="list-add-button" id='+ i + '>Add painting to favorites</button>' ;
      result += "<hr>";
      i++;
+     //need to add in artrecord for choosing favorites
     })
-   }
     result += '</div>';
     $(result).appendTo('#results');
-} else {
-    console.log(":(");
-  }
+}
+}
 }
 //shows error
 function displayError(error) {

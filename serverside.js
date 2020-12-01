@@ -58,6 +58,20 @@ app.get('/find', function (req, res) {
 	})
     }
 })
+app.get('/addfav', function (req, res) {
+  if(misisngField(req.query)) {
+    console.log("Bad add fav request"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"'+'"+req.query.artpiece+"')";
+    console.log(query);
+    con.query(query, function(err, result){
+      if(err) throw err;
+      console.log(result);
+      res.end(JSON.stringify(result));
+    })
+  }
+})
 
 app.get('/addrec', function (req, res) {
     if (missingField(req.query)) {
@@ -65,7 +79,7 @@ app.get('/addrec', function (req, res) {
         res.end("['fail']");
     } else {
     console.log('Hello');
-	query = "Insert INTO Userinfo(Username, Password, Biography, FavoriteArtists, Picture)  VALUES('"+req.query.Username+"','"+req.query.Password+"','"+req.query.Biography+"','"+req.query.FavoriteArtists+"','"+req.query.Picture+"')";
+	query = "Insert INTO Userinfo(Username, Password, Biography)  VALUES('"+req.query.Username+"','"+req.query.Password+"','"+req.query.Biography+"')";
  	console.log(query);
 	con.query(query, function(err,result,fields) {
 	    if (err) throw err;
@@ -76,7 +90,7 @@ app.get('/addrec', function (req, res) {
 })
 
 function missingField(p) {
-    return (p.Username === undefined || p.Password === undefined || p.Biography === undefined || p.FavoriteArtists == undefined || p.Picture == undefined);
+    return (p.Username === undefined || p.Password === undefined || p.Biography === undefined || p.FavoriteArtists == undefined);
 }
 
 var server = app.listen(port, function () {
