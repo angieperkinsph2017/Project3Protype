@@ -3,11 +3,12 @@ const Url ='http://jimskon.com:'+port
 var operation;
 var selectID;
 var recIndex;
-var artrecord;//stores each artwork locally.
+var search;
+var password
+var artrecord = [];//stores each artwork locally. not implemented yet
 var rows;
-var userinfoSelf;
+var userinfoSelf = [];
 var sqlTable ="art.sql";
-var saveRecord;
 var isSelf = true; //for searching users, tells if it is self user or not;
 
 $(document).ready(function () {
@@ -45,9 +46,9 @@ $(document).ready(function () {
   $(".art-search-input").keyup(function(e){
     getMatches();
   });
-  $(".list-add-button").click(function(){
+ $(".list-add-button").click(function(){
     console.log("list-add-button clicked");
-    var elmid=$(this).attr("id");
+    var elmid=$(this).attr("data-id");
     console.log(elmid);
     addfavorite(artrecord[elmid]);
   });
@@ -59,7 +60,7 @@ function getMatches() {//if set on one function pass sqlTable to this
   //need a way to differentiate between tables, but cannot call in doc .ready with sql name or else wont search properly
   //may be worth writing a seperate one for user/password
     sqlTable="art.sql";
-    var search = $("#art-search-input").val();//sets search value
+    search = $("#art-search-input").val();//sets search value
     $('#art-search-input').empty();
   //}
   $.ajax({
@@ -80,11 +81,6 @@ function errorText() {
    search=$("#user-search-input").val();
    console.log("notself"+search);
    isSelf=false;
- } else {
-   search=$("#username-login").val();
-   console.log("self"+search);
-  }
-   console.log(isSelf);
    $.ajax({
      url: Url+'/list?search='+search,
      type:"GET",
@@ -92,7 +88,18 @@ function errorText() {
      error:displayError
    })
 
- }
+ } else {
+   search=$("#username-login").val();
+   password=$("#password-login").val();
+   console.log("self"+search+" "+password);
+   $.ajax({
+     url: Url+'/list?search='+search+'&password='+password,
+     type:"GET",
+     success: processResults,
+     error:displayError
+   })
+  }
+}
  function createAccount() { //when user wants to sign up, this will appear. still need to add where it checks if username is taken already
    $(".signup-modal").show();
    $(".modal").hide();
@@ -101,6 +108,7 @@ function errorText() {
 
 
  }
+
  function addEntry(){
    $('#id01 input[type="password"]').blur(function(){
     if(!$(this).val()){
@@ -148,7 +156,7 @@ function processResults(results) {
     console.log("username could not be found");
     return;
   }
-  if(results=="") {
+  if(results=="" && isSelf==false) {
    errorText();
   }
   else if(sqlTable=="Userinfo.sql") {
@@ -166,20 +174,19 @@ function processResults(results) {
       console.log(userinfo[i]);
     }
     if(isSelf==true) {
-      if($("#password-login").val()!=userinfo[1]) {
-
+      if(results=="[]") {
         $("#modal-login-error-text").show();
         console.log($("#modal-login-error-text").text());
         console.log("error: not same password");
-        isSelf=false;
         return;
       } else {
+        console.log($("#password-login").val());
         $(".modal").hide();
         $(".user-profile").show();
         $("#user-username").text(userinfo[0]);
         $("#user-biography").text(userinfo[2]);
-        $(".favorite-artists").text(userinfo[3]);
-        for(var i=0; i<userinfo[i].length; i++) {
+        for(var i=0; i<userinfo.length; i++) {
+          console.log(userinfo.length);
           userinfoSelf[i]=userinfo[i];
         }
         //$("#self-profile").show(); //features on user-profile only accessable if user page is self--Not in html yet
@@ -201,7 +208,6 @@ function processResults(results) {
   $('.search-option').show();
   rows=JSON.parse(results);
  var result = '<div class = artResults>';
- var artrecord;//stores each artwork locally.
  if (rows.length < 1) {
    result += "<h3>Nothing Found</h3>";
    console.log("Nothing Found");
@@ -209,13 +215,16 @@ function processResults(results) {
     result += '<h3>Results</h3>';
     var i=0;
     rows.forEach(function(row){
-     result += `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p><button class ="list-add-button" id='+ i + '>Add painting to favorites</button>' ;
+      artrecord[i] = `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>' ;
+      console.log(artrecord[i]);
+     result += artrecord[i] + '</p><button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button>' ;
      result += "<hr>";
      i++;
      //need to add in artrecord for choosing favorites
     })
     result += '</div>';
     $(result).appendTo('#results');
+    console.log($(".list-add-button").length);
 }
 }
 }

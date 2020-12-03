@@ -29,12 +29,22 @@ var con = openSQL();
 app.get('/list', function (req,res) {
   console.log("Query:"+JSON.stringify(req.query));
   search=req.query.search;
-  query = "SELECT * FROM Userinfo WHERE Username ='"+search+"'";//sends back all results  from user row
-  con.query(query, function(err, result, search) {
-    if(err) throw err;
-    console.log(result)
-    res.end( JSON.stringify(result));
-  })
+  if(req.query.password==undefined){
+    query = "SELECT Username, Biography FROM Userinfo WHERE Username ='"+search+"'";//sends back all results  from user row
+    con.query(query, function(err, result, search) {
+      if(err) throw err;
+      console.log(result)
+      res.end( JSON.stringify(result));
+    })
+  } else {
+    password=req.query.password;
+    query = "SELECT Username, Biography FROM Userinfo WHERE Username ='"+search+"'AND Password = '"+password+"'";//sends back all results  from user row
+    con.query(query, function(err, result, search, password) {
+      if(err) throw err;
+      console.log(result)
+      res.end(JSON.stringify(result));
+    })
+  }
 })
 
 app.get('/find', function (req, res) {
@@ -63,13 +73,29 @@ app.get('/addfav', function (req, res) {
     console.log("Bad add fav request"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"'+'"+req.query.artpiece+"')";
+    query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece+"')";
     console.log(query);
     con.query(query, function(err, result){
       if(err) throw err;
       console.log(result);
       res.end(JSON.stringify(result));
     })
+  }
+})
+
+app.get('/getfav', function (req,res) {
+  if(missingField(req.query)) {
+    console.log("Bad add fav request"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "SELECT artpiece FROM favorite WHERE Username = '"+username+"'";
+    console.log(query);
+    con.query(query, function(err, results) {
+      if(err) throw err;
+      console.log(result);
+      res.end(JSON.stringify(result));
+    })
+
   }
 })
 
@@ -90,7 +116,7 @@ app.get('/addrec', function (req, res) {
 })
 
 function missingField(p) {
-    return (p.Username === undefined || p.Password === undefined || p.Biography === undefined || p.FavoriteArtists == undefined);
+    return (p.Username === undefined || p.Password === undefined || p.Biography === undefined);
 }
 
 var server = app.listen(port, function () {
