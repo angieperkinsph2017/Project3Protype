@@ -64,7 +64,7 @@ function getMatches() {//if set on one function pass sqlTable to this
     $('#art-search-input').empty();
   //}
   $.ajax({
-    url: Url+'/find?field='+operation+'&search='+search,//+'&sqlTable='+sqlTable, //is this how the find function works or should it be
+    url: Url+'/find?field='+operation+'&search='+search,
     type:"GET",
     success: processResults,
     error:displayError
@@ -75,6 +75,7 @@ function errorText() {
   $("#modal-login-error-text").show();
 }
  function getList(){
+
    sqlTable="Userinfo.sql";
    console.log($("#user-search-input").length);
    if($("#user-search-input").is(':visible')) {
@@ -203,10 +204,10 @@ function processResults(results) {
     }
   }
   else if (sqlTable=="art.sql"){
-
-  $('#results').html("");//clears past searc results
+  $('#results').html("");//clears past search results
   $('.search-option').show();
   rows=JSON.parse(results);
+
  var result = '<div class = artResults>';
  if (rows.length < 1) {
    result += "<h3>Nothing Found</h3>";
@@ -215,9 +216,14 @@ function processResults(results) {
     result += '<h3>Results</h3>';
     var i=0;
     rows.forEach(function(row){
+        $.ajax({
+          url:Url+'/getcom?artpiece='+row.URL,
+          type:'GET',
+          error:displayError,
+        })
       artrecord[i] = `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>' ;
       console.log(artrecord[i]);
-     result += artrecord[i] + '</p><button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button>' ;
+     result += artrecord[i] + '</p><button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button><div class="scrollabletextbox" id="message""</div><span id="chatinput"><textarea id="message" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn"/></p> </span';
      result += "<hr>";
      i++;
      //need to add in artrecord for choosing favorites
