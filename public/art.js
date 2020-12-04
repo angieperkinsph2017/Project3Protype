@@ -140,7 +140,7 @@ function processAdd() {
 }
 function addfavorite(newfavorite) {
   sqlTable="favorite.sql";
-  console.log("favorite: "+newFavorite);
+  console.log("favorite: "+newfavorite);
   $.ajax({
     url: Url+'/addfav?Username='+userinfoSelf[0]+'&artpiece='+newfavorite,
     type:"GET",
