@@ -5,7 +5,7 @@ var app = express();
 var fs = require("fs");
 var mysql = require('mysql');
 //
-var port = 9019
+var port = 9015
 app.use(express.static('public'));
 //
 app.get('/', function (req, res) {
@@ -77,7 +77,6 @@ app.get('/addfav', function (req, res) {
 
     console.log(req.query.Username);
     query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece.replace("'","''")+"')"; //we need the last part to avoid parsing errors when we have an art piece with '.
-
     console.log(query);
     con.query(query, function(err, result){
       if(err) throw err;
@@ -130,6 +129,22 @@ app.get('/addrec', function (req, res) {
 	    res.end( JSON.stringify(result));
 	})
     }
+})
+
+app.get('/editBio', function (req, res) {
+    //if (missingField(req.query)) {
+    //   console.log("Bad edit request:"+JSON.stringify(req.query));
+    //   res.end("['fail']");
+    //} else {
+    console.log('sup');
+	query = "UPDATE Userinfo SET Biography = '"+req.query.newBio+"' WHERE Username = '"+req.query.Username+"'";
+ 	console.log(query);
+	con.query(query, function(err,result,fields) {
+	    if (err) throw err;
+	    console.log(result)
+	    res.end( JSON.stringify(result));
+	})
+  //  }
 })
 
 app.get('/getfavs', function (req, res){
