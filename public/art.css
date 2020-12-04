@@ -74,10 +74,6 @@ h2 {
 }
 h3 {
   font-family: 'Raleway', sans-serif;
-  text-shadow: 0px 15px 5px rgba(0,0,0,0.1),
-                 10px 20px 5px rgba(0,0,0,0.05),
-                 -10px 20px 5px rgba(0,0,0,0.05);
-  padding: 25px;
 }
 a {
   font-family: 'Raleway', sans-serif;
@@ -86,6 +82,15 @@ a {
                  10px 20px 5px rgba(0,0,0,0.05),
                  -10px 20px 5px rgba(0,0,0,0.05);
   padding: 25px;
+}
+
+a.a1 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 25px;
+  text-shadow: 0px 15px 5px rgba(0,0,0,0.1),
+                 10px 20px 5px rgba(0,0,0,0.05),
+                 -10px 20px 5px rgba(0,0,0,0.05);
+  padding: 5px;
 }
 h4 {
   font-family: 'Raleway', sans-serif;
