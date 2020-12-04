@@ -73,7 +73,7 @@ app.get('/addfav', function (req, res) {
     console.log("Bad add fav request"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece+"')";
+    query = "Insert INTO favorite(username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece+"')";
     console.log(query);
     con.query(query, function(err, result){
       if(err) throw err;
@@ -88,7 +88,7 @@ app.get('/getfav', function (req,res) {
     console.log("Bad add fav request"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "SELECT artpiece FROM favorite WHERE Username = '"+req.query.Username+"'";
+    query = "SELECT artpiece FROM favorite WHERE username = '"+req.query.Username+"'";
     console.log(query);
     con.query(query, function(err, results) {
       if(err) throw err;
