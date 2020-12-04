@@ -1,3 +1,124 @@
 .highlight{
   border: 1px solid red;}
 }
+
+button {
+  font-family: 'Raleway', sans-serif;
+}
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+* {box-sizing: border-box;}
+
+.container1 {
+  position: relative;
+  width: 50%;
+  max-width: 150px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 10px;
+  padding: 20px;
+  text-align: center;
+  text-shadow: 2px 1px #000000;
+
+}
+
+.container1:hover .overlay {
+  opacity: 1;
+}
+body {
+  font-family: 'Raleway', sans-serif;
+}
+h1 {
+  font-family: 'Raleway', sans-serif;
+}
+h2 {
+  font-family: 'Raleway', sans-serif;
+}
+h3 {
+  font-family: 'Raleway', sans-serif;
+}
+h4 {
+  font-family: 'Raleway', sans-serif;
+}
+h5 {
+  font-family: 'Raleway', sans-serif;
+}
+
+/* The grid: Four equal columns that floats next to each other */
+.column1 {
+  float: left;
+  width: 25%;
+  padding: 20px;
+}
+
+/* Style the images inside the grid */
+.column1 img {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.column1 img:hover {
+  opacity: 1;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The expanding image container (positioning is needed to position the close button and the text) */
+.container2 {
+  position: relative;
+  display: none;
+}
+
+/* Expanding image text */
+#imgtext {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: white;
+  font-size: 20px;
+}
+
+/* Closable button inside the image */
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.header.content > img,
+.header.content > h1 {
+    display: inline-block;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
