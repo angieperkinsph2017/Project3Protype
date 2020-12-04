@@ -24,10 +24,10 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
     <a class="nav-link" href="http://jimskon.com">CS Lab<span class="sr-only">(current)</span></a>
-      <a class="active" href="#mainpage">Main Page</a>
-      <a href="#profile">Profile</a>
-      <a href="#profile">Profile</a>
-      <a href="#logout">Logout</a>
+      <a class="active" href="#mainpage">main page</a>
+      <a href="#profile">profile</a>
+      <a href="#searchHeader">search</a>
+      <a href="#logout">logout</a>
     </form>
     </div>
   </div>
@@ -36,20 +36,20 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Login in to use site</h5>
+      <h1 class="modal-title">Login</h1>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <p id="modal-login-text">Enter your Username and Password.</p>
-      <h5 id="modal-login-error-text">Username or Password are incorrect</h5>
-      <input id="username-login" class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username">
-      <input id="password-login" class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password">
+      <h5 id="modal-login-text">Enter your Username and Password.</h5>
+      <p id="modal-login-error-text" style="color:red;">Username or Password are incorrect</p>
+      <input id="username-login" class="form-control mr-sm-2" type="text" placeholder="username" aria-label="Username">
+      <input id="password-login" class="form-control mr-sm-2" type="password" placeholder="password" aria-label="Password">
     </div>
     <div class="modal-footer">
-      <button type="button" style="width:auto;" class="btn-login">Login!</button>
-      <button type="button" style="width:auto;" class="btn-createaccount" data-dismiss="modal">Don't Have an Account? Create One!</button>
+      <button style="width:auto;" class="btn-login">Login</button>
+      <button  style="width:auto;" class="btn-createaccount" data-dismiss="modal">Don't Have an Account? Create One!</button>
     </div>
   </div>
 </div>
@@ -57,23 +57,26 @@
 <div id="id01" class="signup-modal">
     <div class="container">
       <h1>Sign Up</h1>
-      <p>Create an account to continue:</p>
+      <h1>Sign Up</h1>
       <hr>
-      <label for="addusername"><b>Username</b></label>
-      <input type="text" placeholder="Enter a Unique Username" id="addusername" required>
+      <label for="addusername"><b>username:</b></label>
+      <input type="text" placeholder="enter a unique username" id="addusername" required>
+      <br>
 
-      <label for="adddpassword" ><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" id="addpassword" required>
+      <label for="adddpassword" ><b>password:</b></label>
+      <input type="password" placeholder="enter password" id="addpassword" required>
+      <br>
+      <label for="passwordrepeat"><b>repeat password:</b></label>
+      <input type="password" placeholder="repeat password" id="passwordrepeat" required>
+      <br>
 
-      <label for="passwordrepeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" id="passwordrepeat" required>
-
-      <label for="addbiography"><b> Short Biography</b></label>
+      <label for="addbiography"><b>bio:</b></label>
       <input type="text" placeholder="Tell Users About Yourself!" id="addbiography" required>
+      <br>
+      <br>
 
 
-
-        <button type="submit" class="signup">Sign Up</button>
+        <button type="submit" class="signup">sign up</button>
     </div>
   </form>
 </div>
