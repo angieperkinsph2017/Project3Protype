@@ -1,12 +1,28 @@
 .highlight{
   border: 1px solid red;}
 }
-
-button {
+/*
+button[type="button3"] {
+  font-size: 20px;
   font-family: 'Raleway', sans-serif;
-}
+}*/
+/*
 .button2:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+*/
+*{
+  font-family: 'Raleway', sans-serif;
+}
+input[type="text"] {
+  font-family: 'Raleway', sans-serif;
+}
+input[type="password"] {
+  font-family: 'Raleway', sans-serif;
+}
+input[type=text]:focus {
+  border: 3px solid #555;
 }
 
 .avatar {
@@ -48,17 +64,36 @@ body {
 }
 h1 {
   font-family: 'Raleway', sans-serif;
+  text-shadow: 0px 15px 5px rgba(0,0,0,0.1),
+                 10px 20px 5px rgba(0,0,0,0.05),
+                 -10px 20px 5px rgba(0,0,0,0.05);
+
 }
 h2 {
   font-family: 'Raleway', sans-serif;
 }
 h3 {
   font-family: 'Raleway', sans-serif;
+  text-shadow: 0px 15px 5px rgba(0,0,0,0.1),
+                 10px 20px 5px rgba(0,0,0,0.05),
+                 -10px 20px 5px rgba(0,0,0,0.05);
+  padding: 25px;
+}
+a {
+  font-family: 'Raleway', sans-serif;
+  font-size: 25px;
+  text-shadow: 0px 15px 5px rgba(0,0,0,0.1),
+                 10px 20px 5px rgba(0,0,0,0.05),
+                 -10px 20px 5px rgba(0,0,0,0.05);
+  padding: 25px;
 }
 h4 {
   font-family: 'Raleway', sans-serif;
 }
 h5 {
+  font-family: 'Raleway', sans-serif;
+}
+p {
   font-family: 'Raleway', sans-serif;
 }
 
