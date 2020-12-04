@@ -1,4 +1,4 @@
-const port='9019'
+const port='9014'
 const Url ='http://jimskon.com:'+port
 var operation;
 var selectID;
@@ -191,6 +191,7 @@ function processResults(results) {
           userinfoSelf[i]=userinfo[i];
         }
         //$("#self-profile").show(); //features on user-profile only accessable if user page is self--Not in html yet
+
       }
       isSelf=false;
       console.log("CheckSelf "+isSelf);
@@ -244,4 +245,17 @@ function processResults(results) {
 //shows error
 function displayError(error) {
     console.log('Error ${error}');
+}
+
+function myFunction(imgs) {
+  // Get the expanded image
+  var expandImg = document.getElementById("expandedImg");
+  // Get the image text
+  var imgText = document.getElementById("imgtext");
+  // Use the same src in the expanded image as the image being clicked on from the grid
+  expandImg.src = imgs.src;
+  // Use the value of the alt attribute of the clickable image as text inside the expanded image
+  imgText.innerHTML = imgs.alt;
+  // Show the container element (hidden with CSS)
+  expandImg.parentElement.style.display = "block";
 }
