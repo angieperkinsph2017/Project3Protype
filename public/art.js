@@ -223,7 +223,8 @@ function processResults(results) {
         })
       artrecord[i] = `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>' ;
       console.log(artrecord[i]);
-     result += artrecord[i] + '</p><button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button><div class="scrollabletextbox" id="message""</div><span id="chatinput"><textarea id="message" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn"/></p> </span';
+     result += artrecord[i] + '<p><button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button>';
+     result += '<div class="scrollabletextbox" id="message""></div><span id="chatinput"><textarea id="message" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn"></p> </span>';
      result += "<hr>";
      i++;
      //need to add in artrecord for choosing favorites
@@ -231,6 +232,12 @@ function processResults(results) {
     result += '</div>';
     $(result).appendTo('#results');
     console.log($(".list-add-button").length);
+    $(".list-add-button").click(function(){
+     console.log("favorite button clicked");
+     var elmid=$(this).attr("data-id");
+     console.log(elmid);
+     addfavorite(artrecord[elmid]);
+    });
 }
 }
 }
