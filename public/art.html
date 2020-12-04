@@ -8,6 +8,8 @@
 
   <title>Art Gallery</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/sketchy/bootstrap.min.css" integrity="sha384-RxqHG2ilm4r6aFRpGmBbGTjsqwfqHOKy1ArsMhHusnRO47jcGqpIQqlQK/kmGy9R" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;1,200&display=swap" rel="stylesheet">
   <link href="art.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -23,7 +25,7 @@
       <form class="form-inline my-2 my-lg-0">
     <a class="nav-link" href="http://jimskon.com">CS Lab<span class="sr-only">(current)</span></a>
       <a class="active" href="#mainpage">Main Page</a>
-      <a href="#search">Search</a>
+      <a href="#profile">Profile</a>
       <a href="#profile">Profile</a>
       <a href="#logout">Logout</a>
     </form>
@@ -102,21 +104,42 @@
 </div>
 
 <div class="user-profile">
-  <h2>Profile page</h2>
+  <div class="header content">
+      <img src="img_avatar.png" alt="Avatar" class="avatar">
+      <h1 id="user-username"></h1>
+  </div>
   <div id="user-image"></div>
   <p id="user-full-name"></p>
-  <h4>username: </h4>
-  <p id="user-username"></p>
 
-  <h4 class="bio">Biography:</h4>
+  <h3 class="bio">bio</h3>
   <p id="user-biography"></p>
-  <div id="interests">
-    <p>Favorite Artists:</p>
-    <ol class="favorite-artists">
-      <li href="Fake_URL">Vincent Van Gogh</li>
-      <li href="Fake_URL">Salvador Dali</li>
-      <li href="Fake_URL">Lewis Henry Meakin</li>
-      </ol>
+
+  <!-- The grid: four columns -->
+  <div class="row">
+    <div class="column1">
+      <img src="023auror.jpg" alt="pic1" style="width:100%" onclick="myFunction(this);">
+    </div>
+    <div class="column1">
+      <img src="511fried.jpg" alt="pic2" style="width:100%" onclick="myFunction(this);">
+    </div>
+    <div class="column1">
+      <img src="aftersto.jpg" alt="pic3" style="width:100%" onclick="myFunction(this);">
+    </div>
+    <div class="column1">
+      <img src="starry.jpeg" alt="pic4" style="width:100%" onclick="myFunction(this);">
+    </div>
+  </div>
+
+  <!-- The expanding image container -->
+  <div class="container2">
+    <!-- Close the image -->
+    <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+
+    <!-- Expanded image -->
+    <img id="expandedImg" class="center" style="width:50%" >
+
+    <!-- Image text -->
+    <div id="imgtext"></div>
   </div>
 </div>
 <div class="container">
