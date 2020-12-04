@@ -105,6 +105,7 @@ a {
 button.a{
   font-family: 'Raleway', sans-serif;
   margin-left:10px;
+  border-width: 2px;
 }
 input.x{
   margin-left:250px;
