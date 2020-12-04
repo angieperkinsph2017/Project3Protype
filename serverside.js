@@ -69,11 +69,15 @@ app.get('/find', function (req, res) {
     }
 })
 app.get('/addfav', function (req, res) {
-  if(misisngField(req.query)) {
+  if(req.query.Username == undefined || req.query.artpiece == undefined) {
+    console.log(req.query.Username);
     console.log("Bad add fav request"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "Insert INTO favorite(username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece+"')";
+
+    console.log(req.query.Username);
+    query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece.replace("'","''")+"')"; //we need the last part to avoid parsing errors when we have an art piece with '.
+
     console.log(query);
     con.query(query, function(err, result){
       if(err) throw err;
@@ -127,6 +131,20 @@ app.get('/addrec', function (req, res) {
 	})
     }
 })
+
+app.get('/getfavs', function (req, res){
+     if (req.query.Username == undefined){
+       console.log("Bad request:" + JSON.stringify(req.query));
+       res.end("['fail']");
+    }else {
+      query = "Select artpiece from favorite where username = '" + req.query.Username+"'";
+      con.query(query, function(err,result,fields) {
+        if (err) throw err;
+        console.log(result);
+        res.end(JSON.stringify(result));
+      })
+     }
+ })
 
 function missingField(p) {
     return (p.Username === undefined || p.Password === undefined || p.Biography === undefined);

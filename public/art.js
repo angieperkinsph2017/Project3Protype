@@ -185,7 +185,13 @@ function processResults(results) {
         $(".modal").hide();
         $(".user-profile").show();
         $("#user-username").text(userinfo[0]);
-        $("#user-biography").text(userinfo[2]);
+        $("#user-biography").text(userinfo[1]);
+	$.ajax({
+	 url: Url+'/getfavs?Username='+userinfo[0],
+	 type: "GET",
+	 success: listFavorites,
+	 error: displayError,
+	})
         for(var i=0; i<userinfo.length; i++) {
           console.log(userinfo.length);
           userinfoSelf[i]=userinfo[i];
@@ -200,7 +206,7 @@ function processResults(results) {
       $(".search-option").hide();
       $(".user-profile").show();
       $("#user-username").text(userinfo[0]);
-      $("#user-biography").text(userinfo[2]);
+      $("#user-biography").text(userinfo[1]);
       $(".favorite-artists").text(userinfo[3]);
     }
   }
@@ -222,7 +228,7 @@ function processResults(results) {
           type:'GET',
           error:displayError,
         })
-      artrecord[i] = `<img src='${row.URL}' class = 'URL'>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>' ;
+      artrecord[i] = `<img src=${row.URL} class = URL>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p>' ;
       console.log(artrecord[i]);
      result += artrecord[i] + '<p><button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button>';
      result += '<div class="scrollabletextbox" id="message""></div><span id="chatinput"><textarea id="message" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn"></p> </span>';
@@ -247,6 +253,7 @@ function displayError(error) {
     console.log('Error ${error}');
 }
 
+
 function myFunction(imgs) {
   // Get the expanded image
   var expandImg = document.getElementById("expandedImg");
@@ -258,4 +265,12 @@ function myFunction(imgs) {
   imgText.innerHTML = imgs.alt;
   // Show the container element (hidden with CSS)
   expandImg.parentElement.style.display = "block";
+
+function listFavorites(results){
+	rows = JSON.parse(results);
+	var result;
+        rows.forEach(function(row){
+	 result += row.artpiece;
+	})
+	$(result).appendTo('#user-favs');
 }
