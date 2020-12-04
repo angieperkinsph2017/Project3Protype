@@ -265,6 +265,7 @@ function myFunction(imgs) {
   imgText.innerHTML = imgs.alt;
   // Show the container element (hidden with CSS)
   expandImg.parentElement.style.display = "block";
+}
 
 function listFavorites(results){
 	rows = JSON.parse(results);
