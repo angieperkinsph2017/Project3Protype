@@ -1,4 +1,4 @@
-const port='9019'
+const port='9015'
 const Url ='http://jimskon.com:'+port
 var operation;
 var selectID;
@@ -186,6 +186,26 @@ function processResults(results) {
         $(".user-profile").show();
         $("#user-username").text(userinfo[0]);
         $("#user-biography").text(userinfo[1]);
+        $("#bioEdit").hide();
+        $("#changeBio").hide();
+
+        $(".bio").click(function(){
+          $("#bioEdit").show();
+          $("#changeBio").show();
+          $("#changeBio").click(function (){
+            newBio=$("#bioEdit").val();
+            $.ajax({
+              url: Url+'/editBio?Username='+userinfoSelf[0]+'&newBio='+newBio,
+              type:"GET",
+              success: processResults(results),
+              error: displayError,
+            })
+            $("#user-biography").text(newBio);
+            $("#bioEdit").hide();
+            $("#changeBio").hide();
+          });
+        });
+
 	$.ajax({
 	 url: Url+'/getfavs?Username='+userinfo[0],
 	 type: "GET",
