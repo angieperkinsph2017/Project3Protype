@@ -86,23 +86,27 @@
 <div class="search-option">
 <h2>Welcome! Click an Option</h2>
 <div class="search">
+<h1 class = "b"> search</h1>
+<br>
 <input id="art-search-input" type="text" placeholder="Search Artwork" aria-label="Search">
-<div class="dropdown">
+<div class="dropdown d-inline-block">
     <li class="btn-group">
-     <a href="#" id="searchtype" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search Artist<span class="caret"></span></a>
+     <a class = "a2" href="#" id="searchtype" class="dropdown-toggle selection" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">select feild<span class="caret"></span></a>
      <ul class="dropdown-menu" role="menu">
-      <li><a href="#">Search Artist</a></li>
-      <li><a href="#">Search Year</a></li>
-      <li><a href="#">Search Title</a></li>
-      <li><a href="#">Search School</a></li>
+      <li><a class = "a2" href="#">Search Artist</a></li>
+      <li><a class = "a2" href="#">Search Year</a></li>
+      <li><a class = "a2" href="#">Search Title</a></li>
+      <li><a class = "a2" href="#">Search School</a></li>
      </ul>
     </li>
   </div>
+  <button class="a" id="art-search" style="width:auto;">search art</button>
+  <input class = "x" id="user-search-input" type="text" placeholder="Search User" aria-label="Search">
+  <button class="a" id="user-search" style="width:auto;">search users</button>
 </div>
-<button id="art-search" style="width:auto;">Search Artwork</button>
+
 <br>
-<input id="user-search-input" type="text" placeholder="Search User" aria-label="Search">
-<button id="user-search" style="width:auto;">Search Other Users</button>
+<br>
 <p id="results" style="width:auto;"> </p>
 </div>
 
@@ -110,7 +114,7 @@
   <div class="header content">
       <br>
       <br>
-      <img src="img_avatar.png" alt="Avatar" class="avatar">
+      <img src="img_avatar.png" alt="Avatar" class="avatar" >
       <h1 class = "a" id="user-username"></h1>
   </div>
   <div id="user-image"></div>
