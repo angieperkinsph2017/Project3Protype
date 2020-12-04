@@ -205,6 +205,7 @@ function processResults(results) {
             $("#user-biography").text(newBio);
             $("#bioEdit").hide();
             $("#changeBio").hide();
+            $("#cancelChange").hide();
           });
           $("#cancelChange").click(function(){
             $("#bioEdit").hide();
