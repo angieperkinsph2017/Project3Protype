@@ -185,7 +185,13 @@ function processResults(results) {
         $(".modal").hide();
         $(".user-profile").show();
         $("#user-username").text(userinfo[0]);
-        $("#user-biography").text(userinfo[2]);
+        $("#user-biography").text(userinfo[1]);
+	$.ajax({
+	 url: Url+'/getfavs?Username='+userinfo[0],
+	 type: "GET",
+	 success: listFavorites,
+	 error: displayError,
+	})
         for(var i=0; i<userinfo.length; i++) {
           console.log(userinfo.length);
           userinfoSelf[i]=userinfo[i];
@@ -199,7 +205,7 @@ function processResults(results) {
       $(".search-option").hide();
       $(".user-profile").show();
       $("#user-username").text(userinfo[0]);
-      $("#user-biography").text(userinfo[2]);
+      $("#user-biography").text(userinfo[1]);
       $(".favorite-artists").text(userinfo[3]);
     }
   }
@@ -244,4 +250,13 @@ function processResults(results) {
 //shows error
 function displayError(error) {
     console.log('Error ${error}');
+}
+
+function listFavorites(results){
+	rows = JSON.parse(results);
+	var result;
+        rows.forEach(function(row){
+	 result += row.artpiece;
+	})
+	$(result).appendTo('#user-favs');
 }
