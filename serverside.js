@@ -69,10 +69,12 @@ app.get('/find', function (req, res) {
     }
 })
 app.get('/addfav', function (req, res) {
-  if(misisngField(req.query)) {
+  if(req.query.Username == undefined || req.query.artpiece == undefined) {
+    console.log(req.query.Username);
     console.log("Bad add fav request"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
+    console.log(req.query.Username);
     query = "Insert INTO favorite(Username, artpiece) VALUES('"+req.query.Username+"','"+req.query.artpiece+"')";
     console.log(query);
     con.query(query, function(err, result){
