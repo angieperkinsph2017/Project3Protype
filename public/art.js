@@ -59,6 +59,8 @@ $(document).ready(function () {
  $(".profilebtn").click(function(){
     console.log("Profile Show");
     $(".user-profile").show();
+    $("#user-username").text(userinfoSelf[0]);
+    $("#user-biography").text(userinfoSelf[1]);
     $(".search-option").hide();
     $(".modal").hide();
     $(".signup-modal").hide();
@@ -163,6 +165,7 @@ function addfavorite(newfavorite) {
 function processResults(results) {
   console.log(results);
   console.log(sqlTable);
+  console.log("Self = " +isSelf);
   if(results=="" && isSelf==true) {
     $("#modal-login-error-text").show();
     console.log("username could not be found");
@@ -242,9 +245,10 @@ function processResults(results) {
       isSelf=false;
       console.log("CheckSelf "+isSelf);
     } else {
-
+      console.log("When self is false");
       $(".search-option").hide();
       $(".user-profile").show();
+      $("#editbutton").hide();
       $("#user-username").text(userinfo[0]);
       $("#user-biography").text(userinfo[1]);
       $(".favorite-artists").text(userinfo[3]);
