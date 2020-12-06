@@ -198,6 +198,7 @@ function processResults(results) {
         return;
       } else {
         console.log($("#password-login").val());
+	getFavorites(userinfo[0]);
         $(".modal").hide();
         $(".user-profile").show();
         $("#user-username").text(userinfo[0]);
@@ -231,7 +232,6 @@ function processResults(results) {
           })
         });
 
-	getFavorites(userinfo[0]);
         for(var i=0; i<userinfo.length; i++) {
           console.log(userinfo.length);
           userinfoSelf[i]=userinfo[i];
@@ -315,7 +315,7 @@ function listFavorites(results){
         rows.forEach(function(row){
 	 result += row.artpiece;
 	})
-	$("#user-favs").html("");
+	$("#user-favs").html("<h3>Favorite Pieces</h3>");
 	if (result != undefined)
 	$(result).appendTo("#user-favs");
 }
