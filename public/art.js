@@ -59,6 +59,7 @@ $(document).ready(function () {
  $(".profilebtn").click(function(){
     console.log("Profile Show");
     $(".user-profile").show();
+    $("#editbutton").show();
     $("#user-username").text(userinfoSelf[0]);
     $("#user-biography").text(userinfoSelf[1]);
     getFavorites(userinfoSelf[0]);
