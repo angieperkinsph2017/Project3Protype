@@ -102,13 +102,14 @@ app.get('/getfav', function (req,res) {
   }
 })
 app.get('/getcom', function(req, res) {
-  if(missingField(req.query)) {
+  console.log(req.query);
+  if(req.query.artpiece === undefined) {
     console.log("Bad get request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
     query = "SELECT Comment, Username, Date FROM comments WHERE artpiece ='"+req.query.artpiece+"'";
     console.log(query);
-    con.query(query, function(err,results){
+    con.query(query, function(err,result){
       if(err) throw err;
       res.end(JSON.stringify(result));
     })
