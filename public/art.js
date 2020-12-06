@@ -1,4 +1,4 @@
-const port='9014'
+const port='9019'
 const Url ='http://jimskon.com:'+port
 var operation;
 var selectID;
@@ -13,6 +13,7 @@ var isSelf = true; //for searching users, tells if it is self user or not;
 
 $(document).ready(function () {
     $(".modal").show();
+    $("#footer").hide(); //Wasn't looking right in login screen so I thought maybe just take it out.
     $("#modal-login-error-text").hide();//couldn't get it to be able to be hidden and then appear using hidden attribute on html so I moved it here
     $(".signup-modal").hide();
     $(".user-profile").hide();
@@ -31,6 +32,8 @@ $(document).ready(function () {
     $("#user-search").click(getList);
     $(".btn-login").click(getList);
     $(".mainpage").click(function(e) {
+      $("#results").html("");
+      $("#art-search-input").val("");
       $(".search-option").show();//junk, shoult not be in final product, just for testing.
       $(".user-profile").hide();
     });
@@ -52,6 +55,14 @@ $(document).ready(function () {
     console.log(elmid);
     addfavorite(artrecord[elmid]);
   });
+
+ $(".profilebtn").click(function(){
+    console.log("Profile Show");
+    $(".user-profile").show();
+    $(".search-option").hide();
+    $(".modal").hide();
+    $(".signup-modal").hide();
+ });
 
 });
 
@@ -75,11 +86,11 @@ function errorText() {
   $("#modal-login-error-text").show();
 }
  function getList(){
-
    sqlTable="Userinfo.sql";
    console.log($("#user-search-input").length);
    if($("#user-search-input").is(':visible')) {
    search=$("#user-search-input").val();
+   $("#user-search-input").val(""); //clear user search box after the search
    console.log("notself"+search);
    isSelf=false;
    $.ajax({
@@ -190,10 +201,11 @@ function processResults(results) {
         $("#changeBio").hide();
         $("#cancelChange").hide();
 
-        $(".bio").click(function(){
+        $("#editbutton").click(function(){
           $("#bioEdit").show();
           $("#changeBio").show();
           $("#cancelChange").show();
+          $("#bioEdit").val(userinfoSelf[1]);
           $("#changeBio").click(function (){
             newBio=$("#bioEdit").val();
             $.ajax({

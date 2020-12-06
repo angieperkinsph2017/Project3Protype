@@ -24,10 +24,9 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
     <a class="nav-link" href="http://jimskon.com">CS Lab<span class="sr-only">(current)</span></a>
-      <a class = "a1" href="#mainpage"><img alt="homeBtn" src="home.png" style="max-width:35px;"></a>
-      <a class = "a1" href="#searchHeader"><img alt="searchBtn" src="searchBtn.png" style="max-width:35px;"></a>
-      <a class = "a1" href="#profile"><img alt="profileHeader" src="profile.png" style="max-width:35px;"></a>
-      <a class = "a1" href="#logout"><img alt="logout" src="logout.png" style="max-width:30px;"></a>
+      <a class = "mainpage" href="#mainpage">Main Page</a>
+      <a class = "profilebtn" href="#profile">Profile</a>
+      <a class = "a1" href="#logout">Logout</a>
     </form>
     </div>
   </div>
@@ -36,7 +35,7 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title">login</h1>
+      <h1 class="modal-title">Login</h1>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -48,35 +47,35 @@
       <input id="password-login" class="form-control mr-sm-2" type="password" placeholder="password" aria-label="Password">
     </div>
     <div class="modal-footer">
-      <button style="width:auto;" class="btn-login">login</button>
-      <button  style="width:auto;" class="btn-createaccount" data-dismiss="modal">don't have an account? create one :)</button>
+      <button style="width:auto;" class="btn-login">Login</button>
+      <button  style="width:auto;" class="btn-createaccount" data-dismiss="modal">Don't have an account? Create one :)</button>
     </div>
   </div>
 </div>
 </div>
 <div id="id01" class="signup-modal">
     <div class="container">
-      <h1>Sign Up</h1>
+	<br><br><br><br>
       <h1>Sign Up</h1>
       <hr>
-      <label for="addusername"><b>username:</b></label>
-      <input type="text" placeholder="enter a unique username" id="addusername" required>
+      <label for="addusername"><b>Username:</b></label>
+      <input type="text" placeholder="Enter a unique username" id="addusername" required>
       <br>
 
-      <label for="adddpassword" ><b>password:</b></label>
-      <input type="password" placeholder="enter password" id="addpassword" required>
+      <label for="adddpassword" ><b>Password:</b></label>
+      <input type="password" placeholder="Enter password" id="addpassword" required>
       <br>
-      <label for="passwordrepeat"><b>repeat password:</b></label>
-      <input type="password" placeholder="repeat password" id="passwordrepeat" required>
+      <label for="passwordrepeat"><b>Repeat password:</b></label>
+      <input type="password" placeholder="Repeat password" id="passwordrepeat" required>
       <br>
 
-      <label for="addbiography"><b>bio:</b></label>
+      <label for="addbiography"><b>Bio:</b></label>
       <input type="text" placeholder="Tell Users About Yourself!" id="addbiography" required>
       <br>
       <br>
 
 
-        <button type="submit" class="signup">sign up</button>
+        <button type="submit" class="signup">Sign Up</button>
     </div>
   </form>
 </div>
@@ -85,7 +84,8 @@
 <br>
 <div class="search-option">
 <div class="search">
-<h1 class = "b"> search</h1>
+<br><br>
+<h1 class = "b"> Search</h1>
 <br>
 <input id="art-search-input" type="text" placeholder="Search Artwork" aria-label="Search">
 <div class="dropdown d-inline-block">
@@ -99,9 +99,9 @@
      </ul>
     </li>
   </div>
-  <button class="a" id="art-search" style="width:auto;">search art</button>
+  <button class="a" id="art-search" style="width:auto;">Search Art</button>
   <input class = "x" id="user-search-input" type="text" placeholder="Search User" aria-label="Search">
-  <button class="a" id="user-search" style="width:auto;">search users</button>
+  <button class="a" id="user-search" style="width:auto;">Search Users</button>
 </div>
 
 <br>
@@ -119,14 +119,17 @@
   <div id="user-image"></div>
   <p id="user-full-name"></p>
 
-  <h3 class="bio">bio<img alt="editButton" src="edit.png" style="max-width:25px;"></h3>
-  <input type="text" id="bioEdit"/>
-  <button class="a" id="changeBio" style="width:auto;">apply changes</button>
-  <button class="a" id="cancelChange" style="width:auto;">cancel</button>
+  <h3 class="bio">Bio</h3>
+  <a href="#">
+  <img alt="editButton" id="editbutton" src="edit.png" style="max-width:25px;">
+  </a>
+  <input type="text" id="bioEdit">
+  <button class="a" id="changeBio" style="width:auto;">Apply Changes</button>
+  <button class="a" id="cancelChange" style="width:auto;">Cancel</button>
   <p id="user-biography"></p>
   <hr>
   <div id="user-favs">
-   <h4>favorite pieces</h4>
+   <h4>Favorite Pieces</h4>
   </div>
   <!-- The grid: four columns -->
   <div class="row">
@@ -164,7 +167,6 @@
              <p>© Angie Perkins; Charlie Stutz; Jimmy Clark</p>
          </div>
      </div>
-     <button class="mainpage">button to get to art search </button>
   </footer>
 </div>
       <!-- Optional JavaScript -->
