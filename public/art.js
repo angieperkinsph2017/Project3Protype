@@ -61,6 +61,7 @@ $(document).ready(function () {
     $(".user-profile").show();
     $("#user-username").text(userinfoSelf[0]);
     $("#user-biography").text(userinfoSelf[1]);
+    getFavorites(userinfoSelf[0]);
     $(".search-option").hide();
     $(".modal").hide();
     $(".signup-modal").hide();
@@ -229,12 +230,7 @@ function processResults(results) {
           })
         });
 
-	$.ajax({
-	 url: Url+'/getfavs?Username='+userinfo[0],
-	 type: "GET",
-	 success: listFavorites,
-	 error: displayError,
-	})
+	getFavorites(userinfo[0]);
         for(var i=0; i<userinfo.length; i++) {
           console.log(userinfo.length);
           userinfoSelf[i]=userinfo[i];
@@ -251,6 +247,7 @@ function processResults(results) {
       $("#editbutton").hide();
       $("#user-username").text(userinfo[0]);
       $("#user-biography").text(userinfo[1]);
+      getFavorites(userinfo[0]);
       $(".favorite-artists").text(userinfo[3]);
     }
   }
@@ -317,5 +314,16 @@ function listFavorites(results){
         rows.forEach(function(row){
 	 result += row.artpiece;
 	})
-	$(result).appendTo('#user-favs');
+	$("#user-favs").html("");
+	if (result != undefined)
+	$(result).appendTo("#user-favs");
+}
+
+function getFavorites(username){
+	$.ajax({
+	 url: Url+'/getfavs?Username='+username,
+	 type: "GET",
+	 success: listFavorites,
+	 error: displayError,
+	})
 }
