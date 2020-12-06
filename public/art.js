@@ -249,6 +249,7 @@ function processResults(results) {
       console.log("When self is false");
       $(".search-option").hide();
       $(".user-profile").show();
+      $("#editbutton").hide(); //we don't want a user to edit another user's bio.
       $("#user-username").text(userinfo[0]);
       $("#user-biography").text(userinfo[1]);
       getFavorites(userinfo[0]);
