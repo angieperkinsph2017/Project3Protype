@@ -128,7 +128,7 @@ app.get('/addrec', function (req, res) {
 	    console.log(result)
 	    res.end( JSON.stringify(result));
 	})
-    }
+       }
 })
 
 app.get('/editBio', function (req, res) {
@@ -160,6 +160,18 @@ app.get('/getfavs', function (req, res){
       })
      }
  })
+
+app.get('/checkrec', function(req,res){
+     if (req.query.Username == undefined){
+       res.end("['fail']");
+    }else {
+      query = "Select ID from Userinfo Where Username= '" +req.query.Username+"'";
+      con.query(query, function(err, result, fields){
+       if (err) throw err;
+       res.end(JSON.stringify(result));
+     })
+    }
+})
 
 function missingField(p) {
     return (p.Username === undefined || p.Password === undefined || p.Biography === undefined);

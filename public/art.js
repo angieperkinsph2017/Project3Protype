@@ -140,12 +140,14 @@ function errorText() {
 
    console.log(sqlTable);
    console.log($('#addusername').val()+$('#addpassword').val()+$('#addbiography').val())
-     $.ajax({
-         url: Url+'/addrec?Username='+$('#addusername').val()+'&Password='+$('#addpassword').val()+'&Biography='+$('#addbiography').val(),
-         type:"GET",
-         success: processAdd,
-         error: displayError
-     }) //favorite artists and picture are fixed at an arbitrary value, this will be changed in the final product
+
+//ajax call to check if username is already in use.
+   $.ajax({
+	url: Url+'/checkrec?Username='+$('#addusername').val(),
+	type: "GET",
+	success: checkUsername,
+	error: displayError
+     })
  }
 function processAdd() {
   console.log("Success: added to sql table");
@@ -300,6 +302,7 @@ function processResults(results) {
 //shows error
 function displayError(error) {
     console.log('Error ${error}');
+    $("#errorMessage").html("Username Already Taken");
 }
 function getcomments (commentpiece) {
   console.log(commentpiece);
@@ -373,3 +376,18 @@ function getFavorites(username){
 	})
 }
 
+function checkUsername(results){
+	console.log(results);
+	$("#errorMessage").html("");
+	if (results != "[]"){
+	   $("#errorMessage").html("Username Already Taken");
+	}
+	else{
+	 $.ajax({
+         url: Url+'/addrec?Username='+$('#addusername').val()+'&Password='+$('#addpassword').val()+'&Biography='+$('#addbiography').val(),
+         type:"GET",
+         success: processAdd,
+         error: displayError
+         })
+       }
+}
