@@ -70,6 +70,19 @@ $(document).ready(function () {
     $(".signup-modal").hide();
  });
 
+  $(".logoutbtn").click(function(){
+    $(".modal").show();
+    $("#footer").hide();
+    $("#modal-login-error-text").hide();
+    $(".signup-modal").hide();
+    $(".user-profile").hide();
+    $(".search-option").hide();
+    $("#username-login").val("");
+    $("#password-login").val("");
+    userinfoSelf.splice(0, userinfoSelf.length); //clear the array
+    isSelf=true;
+  });
+
 });
 
 function getMatches() {//if set on one function pass sqlTable to this
@@ -110,6 +123,7 @@ function errorText() {
  } else {
    search=$("#username-login").val();
    password=$("#password-login").val();
+   $(".modal").hide();
    console.log("self"+search+" "+password);
    $.ajax({
      url: Url+'/list?search='+search+'&password='+password,
