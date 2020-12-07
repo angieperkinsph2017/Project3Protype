@@ -55,7 +55,8 @@ $(document).ready(function () {
     console.log("list-add-button clicked");
     var elmid=$(this).attr("data-id");
     console.log(elmid);
-    addfavorite(artrecord[elmid]);
+    console.log(artpiecerecord[elmid]);
+    addfavorite(artpiecerecord[elmid]);
   });
 
   $(".profilebtn").click(function(){
@@ -300,7 +301,7 @@ function processResults(results) {
      console.log("favorite button clicked");
      var elmid = $(this).attr("data-id");
      console.log(elmid);
-     addfavorite(artrecord[elmid]);
+     addfavorite(artpiecerecord[elmid]);
     });
     $(".expand-comments-btn").click(function() {
 
@@ -396,15 +397,22 @@ function myFunction(imgs) {
 }
 
 function listFavorites(results){
+	$(".column1").html("");
+	$(".container2").hide();
 	rows = JSON.parse(results);
 	var result;
+	var counter = 0;
         rows.forEach(function(row){
-	 result += row.artpiece;
+	 console.log(row.artpiece);
+	 $("<img src=" + row.artpiece + " class='image' style='width:100%;' onclick='myFunction(this);'>").appendTo("#col"+counter);
+	 counter++;
+	 if(counter == 4)
+	  counter = 0;
 	})
   $("#user-favs").html("");
   $("#user-favs").html("<h3>Favorite Pieces</h3>");
-  if (result != undefined)
-	$(result).appendTo("#user-favs");
+/*  if (result != undefined)
+	$(result).appendTo("#col1");*/
 }
 function getFavorites(username){
 	$.ajax({
