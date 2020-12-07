@@ -8,6 +8,7 @@ var search;
 var password
 var artrecord = [];//stores each artwork locally
 var artpiecerecord = [] //stores URL of artwork locally
+var artname = []; //array to store the name of pieces.
 var rows;
 var userinfoSelf = [];
 var sqlTable ="art.sql";
@@ -173,11 +174,11 @@ function processAdd() {
     console.log("added to favorites");
   }
 }
-function addfavorite(newfavorite) {
+function addfavorite(newfavorite, name) {
   sqlTable="favorite.sql";
   console.log("favorite: "+newfavorite);
   $.ajax({
-    url: Url+'/addfav?Username='+userinfoSelf[0]+'&artpiece='+newfavorite,
+    url: Url+'/addfav?Username='+userinfoSelf[0]+'&artpiece='+newfavorite+'&Title='+name,
     type:"GET",
     success: processAdd,
     error: displayError,
@@ -286,7 +287,8 @@ function processResults(results) {
       artrecord[i] = `<div class = "artResult" id="${i}"><img src=${row.URL} class = URL>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p></div>' ;
       console.log(artrecord[i]);
       artpiecerecord[i]=row.URL;
-     result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><div class="scrollabletextbox" " id="com-'+i+'""></div><span class="chatinput"><input id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn-'+i+'"></p> </span>';
+      artname[i]=row.Title;
+     result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><div class="scrollabletextbox" " id="com-'+i+'""></div><span class="chatinput"><input id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn-'+i+'"></p> </span>';
     $("#ta-"+i).hide();
      result += "<hr>";
      i++;
@@ -301,7 +303,7 @@ function processResults(results) {
      console.log("favorite button clicked");
      var elmid = $(this).attr("data-id");
      console.log(elmid);
-     addfavorite(artpiecerecord[elmid]);
+     addfavorite(artpiecerecord[elmid], artname[elmid]);
     });
     $(".expand-comments-btn").click(function() {
 
@@ -403,8 +405,8 @@ function listFavorites(results){
 	var result;
 	var counter = 0;
         rows.forEach(function(row){
-	 console.log(row.artpiece);
-	 $("<img src=" + row.artpiece + " class='image' style='width:100%;' onclick='myFunction(this);'>").appendTo("#col"+counter);
+	 console.log(row.Title);
+	 $("<figure><img src=" + row.artpiece + " class='image' alt="+row.Title+" style='width:100%;' onclick='myFunction(this);'><figcaption>"+row.Title+"</figcaption></figure>").appendTo("#col"+counter);
 	 counter++;
 	 if(counter == 4)
 	  counter = 0;

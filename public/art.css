@@ -219,3 +219,12 @@ p {
 .image{
   margin-top: 20px;
 }
+
+.search-option{
+  margin: 20px;
+  padding: 20px;
+}
+
+.list-add-button{
+  margin-right: 15px;
+}
