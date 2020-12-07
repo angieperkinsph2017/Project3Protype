@@ -101,13 +101,29 @@ app.get('/getfav', function (req,res) {
 
   }
 })
+app.get('/sendcom', function(req, res){
+  console.log(req.query);
+  if(req.query.artpiece === undefined) {
+    console.log("Bad get request:"+JSON.stringify(req.query));
+    res.end("['fail']");
+  } else {
+    query = "Insert INTO comments(Username, Comment, artpiece) VALUES('"+req.query.Username+"','"+req.query.Comment+"','"+req.query.artpiece+"')";
+    console.log(query);
+    con.query(query, function(err,result,fields) {
+        if (err) throw err;
+        console.log(result)
+        res.end( JSON.stringify(result));
+    })
+  }
+
+})
 app.get('/getcom', function(req, res) {
   console.log(req.query);
   if(req.query.artpiece === undefined) {
     console.log("Bad get request:"+JSON.stringify(req.query));
     res.end("['fail']");
   } else {
-    query = "SELECT Comment, Username, Date FROM comments WHERE artpiece ='"+req.query.artpiece+"'";
+    query = "SELECT Comment, Username FROM comments WHERE artpiece ='"+req.query.artpiece+"'";
     console.log(query);
     con.query(query, function(err,result){
       if(err) throw err;

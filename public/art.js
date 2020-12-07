@@ -271,17 +271,17 @@ function processResults(results) {
       artrecord[i] = `<div class = "artResult" id="${i}"><img src=${row.URL} class = URL>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p></div>' ;
       console.log(artrecord[i]);
       artpiecerecord[i]=row.URL;
-     result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><div class="scrollabletextbox" " id="com-'+i+'""></div><span id="chatinput"><textarea id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn"></p> </span>';
+     result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add painting to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><div class="scrollabletextbox" " id="com-'+i+'""></div><span class="chatinput"><input id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn-'+i+'"></p> </span>';
     $("#ta-"+i).hide();
      result += "<hr>";
      i++;
      //need to add in artrecord for choosing favorites
     })
-    $("#chatinput").hide();
-    $(".scrollabletextbox").hide();
     result += '</div>';
     $(result).appendTo('#results');
-    console.log($(".list-add-button").length);
+    $("#form-control").hide();
+    $(".chatinput").hide();
+    $(".scrollabletextbox").hide();
     $(".list-add-button").click(function(){
      console.log("favorite button clicked");
      var elmid = $(this).attr("data-id");
@@ -289,6 +289,7 @@ function processResults(results) {
      addfavorite(artrecord[elmid]);
     });
     $(".expand-comments-btn").click(function() {
+
       console.log("expand comments list clicked");
       textboxID=0;
       var elmid=$(this).attr("data-id");
@@ -312,7 +313,7 @@ function getcomments (commentpiece) {
    type: "GET",
    success: opencomments,
    error: displayError,
-  })
+ })
 }
 function opencomments(results) {
   console.log(results);
@@ -329,18 +330,41 @@ function opencomments(results) {
       comments[i][j]=comments[i][j].replace('""','');
     }
   }
-  for(var i=2; i<comments.length; i+=3) {
+  for(var i=2; i<comments.length; i+=2) {
     comments[i]=comments[i].split('T').shift();
   }
-  for(var i=0; i<comments.length; i+=3) {
-    $(comments[i]+": "+comments[i+1]+"/br    "+comments[i+2]).appendTo("#com-"+textboxID);
+  for(var i=0; i<comments.length; i+=2) {
+    $(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
   }
   console.log(textboxID);
   $("#com-"+textboxID).show();
-  $("#chatinput").show();
+  $(".chatinput").show();
   $("#ta-"+textboxID).show();
   console.log(comments);
+  $("#send-btn-"+textboxID).click(function() {
+    if($("#ta-"+textboxID).val()=="") {
+      return;
+    } else {
+      var sentComment = $("#ta-"+textboxID).val();
+      console.log(sentComment);
+      console.log(userinfoSelf[0]);
+      console.log(artpiecerecord[textboxID]);
+      $.ajax ({
+        url: Url+"/sendcom?Comment="+sentComment+"&Username="+userinfoSelf[0]+"&artpiece="+artpiecerecord[textboxID],
+        type: "GET",
+        success: processcomment,
+        error: displayError,
+      });
 
+    }
+
+  });
+
+
+}
+
+function processcomment(results) {
+  $(userinfoSelf[0]+": "+$("#ta-"+textboxID).val()).appendTo("#com-"+textboxID);
 
 }
 
