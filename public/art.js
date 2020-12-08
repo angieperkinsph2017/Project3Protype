@@ -156,6 +156,11 @@ function errorText() {
 
    console.log(sqlTable);
    console.log($('#addusername').val()+$('#addpassword').val()+$('#addbiography').val())
+   if($("#addusername").val().length<5) {
+     console.log("Username must be at least 5 characters");
+     $("#errorMessage").html("Username Must Be at Least 5 Characters");
+     return;
+   }
 
 //ajax call to check if username is already in use.
    $.ajax({
