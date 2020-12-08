@@ -293,7 +293,7 @@ function processResults(results) {
       console.log(artrecord[i]);
       artpiecerecord[i]=row.URL;
       artname[i]=row.Title;
-     result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><div class="scrollabletextbox" " id="com-'+i+'""></div><span class="chatinput"><input id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn-'+i+'"></p> </span>';
+     result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><span class="chatinput"><input id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn-'+i+'"></p> </span> <div class="scrollabletextbox" id="com-'+i+'">Comments:</div>';
     $("#ta-"+i).hide();
      result += "<hr>";
      i++;
@@ -329,7 +329,8 @@ function displayError(error) {
     $("#errorMessage").html("Username Already Taken");
 }
 function getcomments (commentpiece) {
-  console.log(commentpiece);
+  console.log("get comments");
+  //console.log(commentpiece);
   $.ajax({
    url: Url+'/getcom?artpiece='+commentpiece,
    type: "GET",
@@ -337,6 +338,7 @@ function getcomments (commentpiece) {
    error: displayError,
  })
 }
+
 function opencomments(results) {
   console.log(results);
   var comments = results.split(',');
@@ -356,21 +358,30 @@ function opencomments(results) {
     comments[i]=comments[i].split('T').shift();
   }
   for(var i=0; i<comments.length; i+=2) {
-    $(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
+    $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
+    //$(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
   }
+
   console.log(textboxID);
+
   $("#com-"+textboxID).show();
   $(".chatinput").show();
   $("#ta-"+textboxID).show();
   console.log(comments);
+
+  //putting your comment into the sql table and displaying
   $("#send-btn-"+textboxID).click(function() {
     if($("#ta-"+textboxID).val()=="") {
       return;
     } else {
       var sentComment = $("#ta-"+textboxID).val();
-      console.log(sentComment);
-      console.log(userinfoSelf[0]);
-      console.log(artpiecerecord[textboxID]);
+      //console.log(sentComment);
+      //console.log(userinfoSelf[0]);
+      //console.log(artpiecerecord[textboxID]);
+      //opencomment(sendComment);
+      $(".chatinput").hide();
+      $("#send-btn-"+textboxID).hide();
+
       $.ajax ({
         url: Url+"/sendcom?Comment="+sentComment+"&Username="+userinfoSelf[0]+"&artpiece="+artpiecerecord[textboxID],
         type: "GET",
@@ -378,16 +389,19 @@ function opencomments(results) {
         error: displayError,
       });
 
+
+
     }
 
   });
 
-
 }
 
+//adds comment to other comments on web page after sent by user
+//userinfoSelf[0]+": "+
 function processcomment(results) {
-  $(userinfoSelf[0]+": "+$("#ta-"+textboxID).val()).appendTo("#com-"+textboxID);
-
+  //$(userinfoSelf[0]+": "+results.Comment).appendTo("#com-"+textboxID);
+  $("#com-"+textboxID).append("<br>" + userinfoSelf[0]+": "+ $("#ta-"+textboxID).val());
 }
 
 function myFunction(imgs) {
