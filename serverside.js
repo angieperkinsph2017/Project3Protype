@@ -101,6 +101,7 @@ app.get('/getfav', function (req,res) {
 
   }
 })
+//sends comment from user to sql table
 app.get('/sendcom', function(req, res){
   console.log(req.query);
   if(req.query.artpiece === undefined) {
@@ -111,12 +112,13 @@ app.get('/sendcom', function(req, res){
     console.log(query);
     con.query(query, function(err,result,fields) {
         if (err) throw err;
-        console.log(result)
-        res.end( JSON.stringify(result));
+        console.log(result);
+        res.end(JSON.stringify(result));
     })
   }
 
-})
+})//works
+
 app.get('/getcom', function(req, res) {
   console.log(req.query);
   if(req.query.artpiece === undefined) {
@@ -127,6 +129,7 @@ app.get('/getcom', function(req, res) {
     console.log(query);
     con.query(query, function(err,result){
       if(err) throw err;
+      console.log("works");
       res.end(JSON.stringify(result));
     })
   }
