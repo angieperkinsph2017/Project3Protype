@@ -56,9 +56,7 @@ app.get('/find', function (req, res) {
     } else {
     	field=req.query.field;
     	search=req.query.search;
-      //sqlTable=req.query.sqlTable; //added to make usable for user and art
     	console.log(field+":"+search);
-  //if we're passing the SQl table as an argument, it needs to go here, otherwise we need 2 seperate functions
 	query = "SELECT * FROM art WHERE "+field + "  like '%"+req.query.search+"%' LIMIT 50";
 	console.log(query);
 	con.query(query, function(err,result,fields) {
@@ -68,6 +66,7 @@ app.get('/find', function (req, res) {
 	})
     }
 })
+//Function to add an art piece to a user's favorite art list.
 app.get('/addfav', function (req, res) {
   if(req.query.Username == undefined || req.query.artpiece == undefined) {
     console.log(req.query.Username);
@@ -120,6 +119,7 @@ app.get('/getcom', function(req, res) {
   }
 })
 
+//Function to add a user to the sql table.
 app.get('/addrec', function (req, res) {
     if (missingField(req.query)) {
         console.log("Bad add request:"+JSON.stringify(req.query));
@@ -152,6 +152,7 @@ app.get('/editBio', function (req, res) {
   //  }
 })
 
+//Function to return a user's favorite art pieces.
 app.get('/getfavs', function (req, res){
      if (req.query.Username == undefined){
        console.log("Bad request:" + JSON.stringify(req.query));
@@ -165,6 +166,7 @@ app.get('/getfavs', function (req, res){
       })
      }
  })
+
 
 app.get('/checkrec', function(req,res){
      if (req.query.Username == undefined){
