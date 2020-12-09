@@ -86,21 +86,6 @@ app.get('/addfav', function (req, res) {
   }
 })
 
-app.get('/getfav', function (req,res) {
-  if(missingField(req.query)) {
-    console.log("Bad add fav request"+JSON.stringify(req.query));
-    res.end("['fail']");
-  } else {
-    query = "SELECT artpiece FROM favorite WHERE username = '"+req.query.Username+"'";
-    console.log(query);
-    con.query(query, function(err, results) {
-      if(err) throw err;
-      console.log(result);
-      res.end(JSON.stringify(result));
-    })
-
-  }
-})
 //sends comment from user to sql table
 app.get('/sendcom', function(req, res){
   console.log(req.query);
