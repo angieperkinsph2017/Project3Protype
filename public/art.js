@@ -352,7 +352,7 @@ for(var i=2; i<comments.length; i+=2) {
     $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
     //$(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
   }
-  }
+  
 }
   console.log(textboxID);
 
