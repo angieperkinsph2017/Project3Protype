@@ -345,14 +345,12 @@ if(results == "[]") {
       comments[i][j]=comments[i][j].replace('""','');
     }
   }
-  for(var i=2; i<comments.length; i+=2) {
-    comments[i]=comments[i].split('T').shift();
-  }
   for(var i=0; i<comments.length; i+=2) {
     $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
     //$(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
   }
   }
+}
   console.log(textboxID);
 
   $("#com-"+textboxID).show();
