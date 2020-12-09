@@ -328,6 +328,10 @@ function getcomments (commentpiece) {
 
 function opencomments(results) {
   console.log(results);
+if(results == "[]") {
+    console.log("comment empty");
+    $("#com-"+textboxID).append("<br>No Comments Yet, Be the First to Comment!");
+  } else {
   var comments = results.split(',');
   var commentsParsed;
   for(var i=0; i<comments.length; i++) {
@@ -348,7 +352,7 @@ function opencomments(results) {
     $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
     //$(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
   }
-
+  }
   console.log(textboxID);
 
   $("#com-"+textboxID).show();
