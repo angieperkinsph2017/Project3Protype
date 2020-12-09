@@ -85,14 +85,10 @@ $(document).ready(function () {
 
 });
 
-function getMatches() {//if set on one function pass sqlTable to this
-  //basically gutted this for demo, we can implement later
-  //need a way to differentiate between tables, but cannot call in doc .ready with sql name or else wont search properly
-  //may be worth writing a seperate one for user/password
+function getMatches() {
     sqlTable="art.sql";
     search = $("#art-search-input").val();//sets search value
     $('#art-search-input').empty();
-  //}
   $.ajax({
     url: Url+'/find?field='+operation+'&search='+search,
     type:"GET",
@@ -107,7 +103,6 @@ function errorText() {
  function getList(){
 
    sqlTable="Userinfo.sql";
-   //console.log($("#user-search-input").length);
    if($("#user-search-input").is(':visible')) {
    search=$("#user-search-input").val();
    $("#user-search-input").val(""); //clear user search box after the search
@@ -124,7 +119,6 @@ function errorText() {
    search=$("#username-login").val();
    password=$("#password-login").val();
    $(".modal").hide();
-   console.log("self"+search+" "+password);
    $.ajax({
      url: Url+'/list?search='+search+'&password='+password,
      type:"GET",
@@ -179,7 +173,6 @@ function processAdd() {
 }
 function addfavorite(newfavorite, name) {
   sqlTable="favorite.sql";
-  console.log("favorite: "+newfavorite);
   $.ajax({
     url: Url+'/addfav?Username='+userinfoSelf[0]+'&artpiece='+newfavorite+'&Title='+name,
     type:"GET",
@@ -189,7 +182,6 @@ function addfavorite(newfavorite, name) {
 }
 //outputs pictures after search
 function processResults(results) {
-  console.log(results);
   console.log(sqlTable);
   console.log("Self = " +isSelf);
   if(results=="" && isSelf==true) {
@@ -221,7 +213,6 @@ function processResults(results) {
         console.log("error: not same password");
         return;
       } else {
-        console.log($("#password-login").val());
         getFavorites(userinfo[0]);
         $(".modal").hide();
         $(".user-profile").show();
@@ -263,9 +254,7 @@ function processResults(results) {
 
       }
       isSelf=false;
-      console.log("CheckSelf "+isSelf);
     } else {
-      console.log("When self is false");
       $(".search-option").hide();
       $(".user-profile").show();
       $("#editbutton").hide(); //we don't want a user to edit another user's bio.
@@ -417,21 +406,16 @@ function myFunction(imgs) {
 
 function listFavorites(results){
 	$(".column1").html("");
-	$(".container2").hide();
+	$(".container2").hide(); //hide the expanding image container
 	rows = JSON.parse(results);
 	var result;
 	var counter = 0;
         rows.forEach(function(row){
-	 console.log(row.Title);
 	 $("<figure><img src=" + row.artpiece + " class='image' alt="+row.Title+" style='width:100%;' onclick='myFunction(this);'><figcaption>"+row.Title+"</figcaption></figure>").appendTo("#col"+counter);
 	 counter++;
 	 if(counter == 4)
 	  counter = 0;
 	})
-  $("#user-favs").html("");
-  $("#user-favs").html("<h3>Favorite Pieces</h3>");
-/*  if (result != undefined)
-	$(result).appendTo("#col1");*/
 }
 function getFavorites(username){
 	$.ajax({
@@ -442,9 +426,12 @@ function getFavorites(username){
 	})
 }
 
+//function to check if a username is taken
 function checkUsername(results){
 	console.log(results);
 	$("#errorMessage").html("");
+
+	//if there is already a user with that username
 	if (results != "[]"){
 	   $("#errorMessage").html("Username Already Taken");
 	}
