@@ -1,8 +1,6 @@
 const port='9019'
 const Url ='http://jimskon.com:'+port
 var operation;
-var selectID;
-var recIndex;
 var textboxID;//
 var search;
 var password
