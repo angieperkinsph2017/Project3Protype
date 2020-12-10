@@ -136,7 +136,7 @@ function errorText() {
 
  }
 
- function addEntry(){
+ function addEntry(){ //creates an account for user with a username at a minimum length of 5 characters, a short bio and a password
    $('#id01 input[type="password"]').blur(function(){
     if(!$(this).val()){
         $(this).addClass("error");
@@ -171,7 +171,7 @@ function processAdd() {
     console.log("added to favorites");
   }
 }
-function addfavorite(newfavorite, name) {
+function addfavorite(newfavorite, name) { //add favorites from art search to user profile page
   sqlTable="favorite.sql";
   $.ajax({
     url: Url+'/addfav?Username='+userinfoSelf[0]+'&artpiece='+newfavorite+'&Title='+name,
@@ -180,7 +180,7 @@ function addfavorite(newfavorite, name) {
     error: displayError,
   })
 }
-//outputs pictures after search
+//outputs pictures after search or a user's profile page
 function processResults(results) {
   console.log(sqlTable);
   console.log("Self = " +isSelf);
@@ -206,7 +206,7 @@ function processResults(results) {
       }
       console.log(userinfo[i]);
     }
-    if(isSelf==true) {
+    if(isSelf==true) { //checks if user searched is the self user or a non-self profile
       if(results=="[]") {
         $("#modal-login-error-text").show();
         console.log($("#modal-login-error-text").text());
@@ -219,9 +219,9 @@ function processResults(results) {
         $("#user-username").text(userinfo[0]);
         $("#user-biography").text(userinfo[1]);
         $("#bioEdit").hide();
-       $("#changeBio").hide();
-       $("#cancelChange").hide();
-       $("#editbutton").click(function(){
+        $("#changeBio").hide();
+        $("#cancelChange").hide();
+        $("#editbutton").click(function(){
         $("#bioEdit").show();
         $("#changeBio").show();
         $("#cancelChange").show();
@@ -345,14 +345,12 @@ if(results == "[]") {
       comments[i][j]=comments[i][j].replace('""','');
     }
   }
-for(var i=2; i<comments.length; i+=2) {
-    comments[i]=comments[i].split('T').shift();
-  }
-  for(var i=0; i<comments.length; i+=2) {
+
+for(var i=0; i<comments.length; i+=2) {
     $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
     //$(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
   }
-  
+
 }
   console.log(textboxID);
 
@@ -367,10 +365,6 @@ for(var i=2; i<comments.length; i+=2) {
       return;
     } else {
       var sentComment = $("#ta-"+textboxID).val();
-      //console.log(sentComment);
-      //console.log(userinfoSelf[0]);
-      //console.log(artpiecerecord[textboxID]);
-      //opencomment(sendComment);
       $(".chatinput").hide();
       $("#send-btn-"+textboxID).hide();
 
