@@ -1,7 +1,7 @@
 const port='9019'
 const Url ='http://jimskon.com:'+port
 var operation;
-var textboxID;//
+var textboxID;// integer value used for id of comment elements created in processresults
 var search;
 var password
 var artrecord = [];//stores each artwork locally
@@ -15,7 +15,7 @@ var isSelf = true; //for searching users, tells if it is self user or not;
 $(document).ready(function () {
     $(".modal").show();
     $("#footer").hide();
-    $("#modal-login-error-text").hide();//couldn't get it to be able to be hidden and then appear using hidden attribute on html so I moved it here
+    $("#modal-login-error-text").hide();
     $(".signup-modal").hide();
     $(".user-profile").hide();
     $(".search-option").hide();
@@ -250,8 +250,6 @@ function processResults(results) {
           console.log(userinfo.length);
           userinfoSelf[i]=userinfo[i];
         }
-        //$("#self-profile").show(); //features on user-profile only accessable if user page is self--Not in html yet
-
       }
       isSelf=false;
     } else {
@@ -272,19 +270,18 @@ function processResults(results) {
  if (rows.length < 1) {
    result += "<h3>Nothing Found</h3>";
    console.log("Nothing Found");
- } else {
+ } else { //all art results appeneded to html with completed information
     result += '<h3>Results</h3>';
     var i=0;
     rows.forEach(function(row){
       artrecord[i] = `<div class = "artResult" id="${i}"><img src=${row.URL} class = URL>` + '<p class=Title>Title: ' + row.Title + '</p><p class = Year>Year: ' + row.Year + '</p><p class = Artist>Artist: ' + row.Artist + '</p><p class = Born>Artist Born-Died: ' + row.BornDied + '</p><p class = Technique>Technique: ' + row.Technique + '</p><p class = Location>Location: ' + row.Location + '</p><p class = Form>Form: ' + row.Form + '</p><p class = Type>Type: ' + row.Type + '</p><p class = School>School: ' + row.School + '</p><p class = Timeframe>Timeframe: ' + row.Timeframe + '</p></div>' ;
       console.log(artrecord[i]);
-      artpiecerecord[i]=row.URL;
+      artpiecerecord[i]=row.URL; //used to get comments and add favorites
       artname[i]=row.Title;
      result += artrecord[i] + '<button class ="list-add-button" data-id="'+ i + '">Add to favorites</button><button class="expand-comments-btn" data-id="' + i + '">See Comments</button><span class="chatinput"><input id="ta-'+i+'" class="form-control" rows="1" cols="60" placehold="message"></textarea><br/><input type="button" value="send" id="send-btn-'+i+'"></p> </span> <div class="scrollabletextbox" id="com-'+i+'">Comments:</div>';
     $("#ta-"+i).hide();
      result += "<hr>";
      i++;
-     //need to add in artrecord for choosing favorites
     })
     result += '</div>';
     $(result).appendTo('#results');
@@ -328,7 +325,7 @@ function getcomments (commentpiece) {
 
 function opencomments(results) {
   console.log(results);
-if(results == "[]") {
+if(results == "[]") { //no comments on particular piece
     console.log("comment empty");
     $("#com-"+textboxID).append("<br>No Comments Yet, Be the First to Comment!");
   } else {
@@ -345,10 +342,10 @@ if(results == "[]") {
       comments[i][j]=comments[i][j].replace('""','');
     }
   }
-
+//adds username and comment to chat textbox
 for(var i=0; i<comments.length; i+=2) {
     $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
-    //$(comments[i]+": "+comments[i+1]).appendTo("#com-"+textboxID);
+
   }
 
 }
@@ -386,7 +383,6 @@ for(var i=0; i<comments.length; i+=2) {
 //adds comment to other comments on web page after sent by user
 //userinfoSelf[0]+": "+
 function processcomment(results) {
-  //$(userinfoSelf[0]+": "+results.Comment).appendTo("#com-"+textboxID);
   $("#com-"+textboxID).append("<br>" + userinfoSelf[0]+": "+ $("#ta-"+textboxID).val());
 }
 
@@ -416,6 +412,7 @@ function listFavorites(results){
 	  counter = 0;
 	})
 }
+//get the favorites of the user based on username
 function getFavorites(username){
 	$.ajax({
 	 url: Url+'/getfavs?Username='+username,
