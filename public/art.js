@@ -118,7 +118,7 @@ function errorText() {
  } else {
    search=$("#username-login").val();
    password=$("#password-login").val();
-   $(".modal").hide();
+   //$(".modal").hide();
    $.ajax({
      url: Url+'/list?search='+search+'&password='+password,
      type:"GET",
@@ -190,7 +190,9 @@ function processResults(results) {
     return;
   }
   if(results=="" && isSelf==false) {
+   ("<p>user does not exist :/</p>".appendTo(".search");
    errorText();
+   return;
   }
   else if(sqlTable=="Userinfo.sql") {
     var userinfo = results.split('","');
