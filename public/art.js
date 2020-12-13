@@ -17,6 +17,7 @@ $(document).ready(function () {
     $("#footer").hide();
     $("#modal-login-error-text").hide();
     $(".signup-modal").hide();
+    $(".nouser-result").hide();
     $(".user-profile").hide();
     $(".search-option").hide();
     $(".btn-createaccount").click(createAccount);
@@ -118,7 +119,6 @@ function errorText() {
  } else {
    search=$("#username-login").val();
    password=$("#password-login").val();
-   //$(".modal").hide();
    $.ajax({
      url: Url+'/list?search='+search+'&password='+password,
      type:"GET",
@@ -184,13 +184,14 @@ function addfavorite(newfavorite, name) { //add favorites from art search to use
 function processResults(results) {
   console.log(sqlTable);
   console.log("Self = " +isSelf);
+      $(".nouser-result").hide(); //hides error message which may have previously appeared if user searched nonexistant username
   if(results=="" && isSelf==true) {
     $("#modal-login-error-text").show();
     console.log("username could not be found");
     return;
   }
-  if(results=="" && isSelf==false) {
-   ("<p>user does not exist :/</p>".appendTo(".search");
+  if(results=="[]" && isSelf==false) {
+   $(".nouser-result").show();
    errorText();
    return;
   }
@@ -345,10 +346,21 @@ if(results == "[]") { //no comments on particular piece
     }
   }
 //adds username and comment to chat textbox
+var commentscomplete='';//all comments for artpiece;
 for(var i=0; i<comments.length; i+=2) {
-    $("#com-"+textboxID).append("<br>" + comments[i+1]+": "+ comments[i]);
+    commentscomplete+=("<br>" + comments[i+1]+": "+ comments[i]);
 
   }
+  console.log(commentscomplete);
+  console.log($("#com-"+textboxID).text());
+if(commentscomplete == $("#com-"+textboxID).text()) {
+  return;
+  console.log("hello Nebraska");
+} else if($("#com-"+textboxID).text()!="Comments:" || $("#com-"+textboxID).text()== "No Comments Yet, Be the First to Comment!") {
+  return;
+} else {
+  $("#com-"+textboxID).append(commentscomplete);
+}
 
 }
   console.log(textboxID);
@@ -364,7 +376,7 @@ for(var i=0; i<comments.length; i+=2) {
       return;
     } else {
       var sentComment = $("#ta-"+textboxID).val();
-      $(".chatinput").hide();
+      //$(".chatinput").hide();
       $("#send-btn-"+textboxID).hide();
 
       $.ajax ({
